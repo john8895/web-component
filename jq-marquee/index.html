@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JQuery Marquee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding: 200px 20px 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .header-marquee-wrap {
+            border: 1px solid red;
+            overflow: hidden;
+            height: 20px;
+
+        }
+
+        .header-marquee-bd {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<h1>JQuery Marquee</h1>
+<div class="header-marquee-wrap">
+    <ul class="header-marquee-bd" id="headerMarquee">
+        <li><a target="_blank" href="#">1 此處為跑馬燈示意文字，用來充當未來版面文字的字串</a></li>
+        <li><a target="_blank" href="#">2 此處為跑馬燈示意文字，用來充當未來版面文字的字串</a></li>
+        <li><a target="_blank" href="#">3 此處為跑馬燈示意文字，用來充當未來版面文字的字串</a></li>
+        <li><a target="_blank" href="#">4 此處為跑馬燈示意文字，用來充當未來版面文字的字串</a></li>
+        <li><a target="_blank" href="#">5 此處為跑馬燈示意文字，用來充當未來版面文字的字串</a></li>
+        <li><a target="_blank" href="#">6 此處為跑馬燈示意文字，用來充當未來版面文字的字串</a></li>
+    </ul>
+</div>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        marqueeRoll(); // header跑馬燈
+        // header跑馬燈
+        function marqueeRoll() {
+            let marquee = $("#headerMarquee");
+            let count = 0;
+            //一開始先跑一次
+            marqueeHandle();
+            //定時器
+            let timeId = setInterval(marqueeHandle, 1000);
+
+            //跑馬燈控制
+            function marqueeHandle() {
+                // 取得li的高度
+                let childHeight = marquee.children().eq(0).height();
+                // 如果步數大於ul總高-一個li高度
+                if (count > marquee.height() - childHeight) {
+                    count = 0;
+                    //讓ul動畫往下跑，歸零
+                    marquee.animate({
+                        bottom: "0"
+                    }, 500);
+                }
+                // 每次移動一個li的高度
+                marquee.css("bottom", count + 'px');
+                count += childHeight;
+            }
+
+            //滑鼠移入停止計時器，移出繼續計時器
+            marquee.mouseover(function () {
+                console.log('over');
+                clearInterval(timeId);
+            });
+            marquee.mouseout(function () {
+                console.log('out');
+                timeId = setInterval(marqueeHandle, 3500);
+            });
+        }
+    });
+</script>
+</body>
+</html>
